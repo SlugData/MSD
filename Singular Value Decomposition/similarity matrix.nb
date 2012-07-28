@@ -1,0 +1,215 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      7364,        205]
+NotebookOptionsPosition[      6922,        185]
+NotebookOutlinePosition[      7278,        201]
+CellTagsIndexPosition[      7235,        198]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Sets", " ", "the", " ", "number", " ", "of", " ", "retained", " ", 
+    "singular", " ", "values"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"sing", "=", "20"}]}]], "Input",
+ CellChangeTimes->{{3.552422281445385*^9, 3.552422327761572*^9}, {
+  3.552428015824602*^9, 3.5524280160080214`*^9}}],
+
+Cell[BoxData["20"], "Output",
+ CellChangeTimes->{3.5524242281051493`*^9, 3.5524259420938272`*^9, 
+  3.552427265533371*^9, 3.55242788537956*^9, 3.5524280225673122`*^9, 
+  3.552429182285376*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Grabs", " ", "the", " ", "evaluation", " ", "set", " ", "and", " ", 
+    "executes", " ", "the", " ", "SVD"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"data", "=", 
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\</Users/hailekofi/Documents/Million/numer.txt\>\"", ",", 
+       "\"\<Data\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"data", "=", 
+     RowBox[{"Delete", "[", 
+      RowBox[{"data", ",", 
+       RowBox[{"{", 
+        RowBox[{"{", "1", "}"}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"mat", "=", 
+     RowBox[{"SparseArray", "[", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"data", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
+           RowBox[{"data", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", "2"}], "]"}], "]"}]}], "}"}], "\[Rule]", 
+         RowBox[{"N", "[", 
+          RowBox[{"data", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", ",", "3"}], "]"}], "]"}], "]"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{"Length", "[", "data", "]"}]}], "}"}]}], "]"}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"users", ",", " ", "values", ",", " ", "songs"}], "}"}], "=", 
+     RowBox[{"SingularValueDecomposition", "[", 
+      RowBox[{"mat", ",", "15"}], "]"}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.5524147842843933`*^9, 3.552414794566271*^9}, {
+  3.55241492153086*^9, 3.552414922368335*^9}, {3.552414978806705*^9, 
+  3.552414998847332*^9}, {3.552422242471633*^9, 3.552422272997024*^9}, {
+  3.552422359564636*^9, 3.5524224250366907`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "\[Sigma]", " ", "sets", " ", "a", " ", "tolerance", " ", "below", " ", 
+    "which", " ", "we", " ", "discard", " ", "elements", " ", "of", " ", 
+    "the", " ", "user", " ", "matrix", " ", "to", " ", "keep", " ", "things", 
+    " ", "sparse", " ", "and", " ", "fast"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"\[Sigma]", "=", ".5"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"users", "=", 
+     RowBox[{"SparseArray", "[", 
+      RowBox[{"Chop", "[", 
+       RowBox[{"users", ",", 
+        SqrtBox[
+         FractionBox[
+          SuperscriptBox["\[Sigma]", "2"], "110000"]]}], "]"}], "]"}]}], 
+    ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.552425439806301*^9, 3.5524255380658283`*^9}, 
+   3.552426096085208*^9, 3.55242615041358*^9, 3.552426240268392*^9, {
+   3.552426434329144*^9, 3.5524264365609426`*^9}, {3.552426756871852*^9, 
+   3.552426781079138*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "Here", " ", "we", " ", "construct", " ", "a", " ", "user", " ", 
+     "similarity", " ", "matrix", " ", "based", " ", "on", " ", "cosine", " ", 
+     RowBox[{"similarity", ".", " ", "\[Kappa]"}], " ", "sets", " ", "the", 
+     " ", "minimum", " ", "amount", " ", "of", " ", "similarity", " ", "we", 
+     " ", "are", " ", "interested", " ", "in", " ", "0"}], "\[LessEqual]", 
+    "\[Kappa]", "\[LessEqual]", "1"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"\[Kappa]", "=", ".95"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ArrayRules", "[", 
+     RowBox[{"SparseArray", "[", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"Norm", "[", 
+         RowBox[{"users", "[", 
+          RowBox[{"[", "j", "]"}], "]"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", "110000"}], "}"}]}], "]"}], "]"}], "]"}],
+     ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"udiags", "=", 
+     RowBox[{"DiagonalMatrix", "[", 
+      RowBox[{"SparseArray", "[", 
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"%", "[", 
+            RowBox[{"[", 
+             RowBox[{"j", ",", "1"}], "]"}], "]"}], "\[Rule]", 
+           SuperscriptBox[
+            RowBox[{"%", "[", 
+             RowBox[{"[", 
+              RowBox[{"j", ",", "2"}], "]"}], "]"}], 
+            RowBox[{"-", "1"}]]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"j", ",", "1", ",", 
+            RowBox[{
+             RowBox[{"Length", "[", "%", "]"}], "-", "1"}]}], "}"}]}], "]"}], 
+        ",", "110000"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"udiags", ".", "users"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"%", ".", 
+     RowBox[{"Transpose", "[", "%", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"simi", "=", 
+     RowBox[{"Chop", "[", 
+      RowBox[{"%", ",", "\[Kappa]"}], "]"}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.55242541921581*^9, 3.552425433039508*^9}, {
+  3.552425466594116*^9, 3.552425466895528*^9}, {3.5524258736306334`*^9, 
+  3.552425883510364*^9}, {3.5524259520618477`*^9, 3.5524259971033278`*^9}, {
+  3.552426030280765*^9, 3.5524260818073673`*^9}, {3.5524263531480007`*^9, 
+  3.552426354058807*^9}, {3.552426432427121*^9, 3.552426483566465*^9}, {
+  3.552426553607308*^9, 3.5524265627462893`*^9}, {3.552426675141844*^9, 
+  3.552426706901065*^9}, {3.552426739075077*^9, 3.55242674613496*^9}, {
+  3.552426986983721*^9, 3.5524270098754807`*^9}, {3.552427116256304*^9, 
+  3.5524271841362667`*^9}, {3.55242761002604*^9, 3.552427612148934*^9}, {
+  3.5524278407194233`*^9, 3.552427867678969*^9}, {3.552427995692587*^9, 
+  3.5524280033970537`*^9}, {3.5524291664512463`*^9, 3.552429172547885*^9}, {
+  3.5524296036921883`*^9, 3.552429631465596*^9}, {3.55243085335501*^9, 
+  3.552430858716179*^9}}]
+},
+WindowSize->{740, 867},
+WindowMargins->{{Automatic, 156}, {Automatic, 4}},
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
+2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 349, 8, 43, "Input"],
+Cell[931, 32, 192, 3, 27, "Output"]
+}, Open  ]],
+Cell[1138, 38, 1869, 51, 103, "Input"],
+Cell[3010, 91, 958, 23, 114, "Input"],
+Cell[3971, 116, 2947, 67, 159, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
